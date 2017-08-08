@@ -44,7 +44,6 @@ public interface FeedbackRepository extends Repository<Feedback, Long> {
      * @param name must not be {@literal null}.
      * @return Stream of entities with the given name
      * @throws IllegalArgumentException if {@code name} is {@literal null}
-     *
      */
     default Stream<Feedback> findByName(String name) {
         Preconditions.checkNotNull(name);

@@ -6,6 +6,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -24,8 +25,8 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfo("Feedback REST API",
-                "This is simple API for a feedback service.",
+        return new ApiInfo("Feedback service API",
+                "This is a service for managing customers feedback.",
                 "1.0.0",
                 null,
                 contact(),
@@ -35,6 +36,6 @@ public class SwaggerConfig {
     }
 
     private Contact contact() {
-        return new Contact("Tomas Turek", null, "osmman@gmail.com");
+        return new Contact("Tomas Turek", "https://github.com/osmman/feedback-microservice", "osmman@gmail.com");
     }
 }
