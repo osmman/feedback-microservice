@@ -1,34 +1,54 @@
 package com.github.osmman.feedback;
 
-import io.swagger.annotations.Api;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
+
+@Validated
+@RequestMapping(value = "/feedback")
+@Api(value = "Feedback API", description = "Operations to manage feedback.", tags = "feedback")
 @Controller
-@Api("resource description")
-@RequestMapping("/feedback")
 public class FeedbackController {
 
     public final static Long DEFAULT_SKIP = 0L;
-    public final static Predicate<Feedback> DEFAULT_FILTER = feedback -> true;
 
     @Autowired
     private FeedbackRepository repository;
 
-    @GetMapping
+    @ApiOperation(
+            value = "List of all feedback",
+            notes = "By passing in the appropriate options, you can search for available feedback in the system."
+    )
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Bad input parameter", response = ValidationErrors.class)
+    })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "Search by name of author",
+                    paramType = "query", dataType = "string"),
+            @ApiImplicitParam(name = "offset", value = "Number of records to skip for pagination",
+                    paramType = "query", dataType = "long", allowableValues = "range[0, infinity]"),
+            @ApiImplicitParam(name = "limit", value = "Maximum number of records to return",
+                    paramType = "query", dataType = "long", allowableValues = "range[1, infinity]"),
+    })
+    @GetMapping(produces = APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public List<Feedback> find(@RequestParam("name") Optional<String> name, @RequestParam("offset") Optional<Long> offset, @RequestParam("limit") Optional<Long> limit) {
+    public List<Feedback> find(@RequestParam("name") Optional<String> name,
+                               @Min(0) @RequestParam("offset") Optional<Long> offset,
+                               @Min(1) @RequestParam("limit") Optional<Long> limit) {
         Stream<Feedback> stream = name
                 .map(repository::findByName)
                 .orElse(repository.findAll())
@@ -37,14 +57,34 @@ public class FeedbackController {
         return stream.collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ApiOperation(
+            value = "Find feedback by ID",
+            notes = "This method return a single feedback based on the provided ID."
+    )
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Invalid ID supplied", response = ValidationErrors.class),
+            @ApiResponse(code = 404, message = "Feedback not found"),
+    })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "Feedback ID", paramType = "path", dataType = "long", required = true)
+    })
+    @GetMapping(value = "/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public Feedback findOne(@PathVariable(value = "id") Long id) {
         return repository.findOne(id)
                 .orElseThrow(ResourceNotFoundException::new);
     }
 
-    @PostMapping
+    @ApiOperation(value = "Add a new feedback", code = 201)
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Invalid input, object invalid", response = ValidationErrors.class)
+    })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "feedback", value = "Feedback object that needs to be added.", required = true, paramType = "body",
+                    examples = @Example(@ExampleProperty("{\"name\": \"Bob\", \"message\": \"The best application!\"}"))
+            )
+    })
+    @PostMapping(consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public Feedback create(@Valid @RequestBody Feedback feedback) {

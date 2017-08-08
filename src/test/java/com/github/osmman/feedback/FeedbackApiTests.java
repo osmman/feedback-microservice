@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -14,9 +15,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
@@ -75,13 +74,13 @@ public class FeedbackApiTests {
     @Test
     public void sendInvalidFeedback() throws Exception {
         Feedback feedback = new Feedback(null, null, null, null);
-        mvc.perform(post("/feedback").contentType(APPLICATION_JSON_UTF8).content(json(feedback)))
+        mvc.perform(post("/feedback").content(json(feedback)).contentType(APPLICATION_JSON_UTF8))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     public void sendEmptyFeedback() throws Exception {
-        mvc.perform(post("/feedback"))
+        mvc.perform(post("/feedback").contentType(APPLICATION_JSON_UTF8))
                 .andExpect(status().isBadRequest());
     }
 
@@ -139,6 +138,25 @@ public class FeedbackApiTests {
     public void findFeedbackByIdInvalidInput() throws Exception {
         mvc.perform(get("/feedback/string"))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void notAcceptableMediaType() throws Exception {
+        mvc.perform(get("/feedback").accept(MediaType.APPLICATION_XML))
+                .andExpect(status().isNotAcceptable());
+    }
+
+    @Test
+    public void unsupportedMediaType() throws Exception {
+        mvc.perform(post("/feedback").contentType(MediaType.APPLICATION_XML))
+                .andExpect(status().isUnsupportedMediaType());
+    }
+
+    @Test
+    public void defaultMediaType() throws Exception {
+        mvc.perform(get("/feedback"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8));
     }
 
     protected String json(Object o) throws IOException {

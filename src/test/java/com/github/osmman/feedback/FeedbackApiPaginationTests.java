@@ -78,12 +78,28 @@ public class FeedbackApiPaginationTests {
     @Test
     public void findByNameWithLimitAndOffset() throws Exception {
         mvc.perform(get("/feedback")
-            .param("name", "User0")
+                .param("name", "User0")
                 .param("offset", "10")
                 .param("limit", "2")
                 .accept(APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Test
+    public void invalidInputString() throws Exception {
+        mvc.perform(get("/feedback")
+                .param("offset", "BAD")
+                .accept(APPLICATION_JSON_UTF8))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void invalidInputNegativeNumber() throws Exception {
+        mvc.perform(get("/feedback")
+                .param("offset", "-1")
+                .accept(APPLICATION_JSON_UTF8))
+                .andExpect(status().isBadRequest());
     }
 }
