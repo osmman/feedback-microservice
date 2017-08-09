@@ -124,13 +124,13 @@ public class FeedbackApiTests {
         mvc.perform(get("/feedback/" + feedback.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.id", is(feedback.getId())))
+                .andExpect(jsonPath("$.id", is(feedback.getId().toString())))
                 .andExpect(jsonPath("$.name", is(feedback.getName())));
     }
 
     @Test
     public void findFeedbackByIdNotExist() throws Exception {
-        mvc.perform(get("/feedback/99999999"))
+        mvc.perform(get("/feedback/00000000-0000-0000-0000-000000000000"))
                 .andExpect(status().isNotFound());
     }
 

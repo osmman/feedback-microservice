@@ -13,6 +13,7 @@ import javax.validation.constraints.Min;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -66,11 +67,11 @@ public class FeedbackController {
             @ApiResponse(code = 404, message = "Feedback not found"),
     })
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "Feedback ID", paramType = "path", dataType = "long", required = true)
+            @ApiImplicitParam(name = "id", value = "Feedback ID", paramType = "path", dataType = "uuid", required = true)
     })
     @GetMapping(value = "/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public Feedback findOne(@PathVariable(value = "id") Long id) {
+    public Feedback findOne(@PathVariable(value = "id") UUID id) {
         return repository.findOne(id)
                 .orElseThrow(ResourceNotFoundException::new);
     }
@@ -79,15 +80,10 @@ public class FeedbackController {
     @ApiResponses({
             @ApiResponse(code = 400, message = "Invalid input, object invalid", response = ValidationErrors.class)
     })
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "feedback", value = "Feedback object that needs to be added.", required = true, paramType = "body",
-                    examples = @Example(@ExampleProperty("{\"name\": \"Bob\", \"message\": \"The best application!\"}"))
-            )
-    })
     @PostMapping(consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public Feedback create(@Valid @RequestBody Feedback feedback) {
+    public Feedback create(@ApiParam(value = "Feedback object that needs to be added.", required = true) @Valid @RequestBody Feedback feedback) {
         Feedback updatedFeedback = feedback.toBuilder()
                 .id(null)
                 .createdAt(new Date())

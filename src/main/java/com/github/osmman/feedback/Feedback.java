@@ -12,6 +12,7 @@ import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
@@ -21,8 +22,8 @@ import java.util.Date;
 public class Feedback {
 
     @Id
-    @ApiModelProperty(value = "Unique identifier", readOnly = true, example = "123", position = 0)
-    private Long id;
+    @ApiModelProperty(value = "Universally unique identifier", readOnly = true, example = "265e2d07-6da9-47c1-bef3-866cc83e8b6c")
+    private UUID id;
 
     @NotEmpty
     @Size(min = 2, max = 30)
