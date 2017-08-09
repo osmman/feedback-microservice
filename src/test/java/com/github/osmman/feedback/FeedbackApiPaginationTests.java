@@ -49,7 +49,7 @@ public class FeedbackApiPaginationTests {
     }
 
     @Test
-    public void findAllFeedbacksWithLimit() throws Exception {
+    public void findAllFeedbackWithLimit() throws Exception {
         mvc.perform(get("/feedback").param("limit", "10").accept(APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8))
@@ -57,7 +57,7 @@ public class FeedbackApiPaginationTests {
     }
 
     @Test
-    public void findAllFeedbacksWithOffset() throws Exception {
+    public void findAllFeedbackWithOffset() throws Exception {
         mvc.perform(get("/feedback").param("offset", "30").accept(APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8))
@@ -65,7 +65,7 @@ public class FeedbackApiPaginationTests {
     }
 
     @Test
-    public void findAllFeedbacksWithLimitAndOffset() throws Exception {
+    public void findAllFeedbackWithLimitAndOffset() throws Exception {
         mvc.perform(get("/feedback")
                 .param("offset", "10")
                 .param("limit", "10")
