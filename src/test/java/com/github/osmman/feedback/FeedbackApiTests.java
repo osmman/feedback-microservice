@@ -85,7 +85,7 @@ public class FeedbackApiTests {
     }
 
     @Test
-    public void findAllFeedbacks() throws Exception {
+    public void findAllFeedback() throws Exception {
         mvc.perform(get("/feedback").accept(APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8))

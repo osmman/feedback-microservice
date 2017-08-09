@@ -44,14 +44,14 @@ public class GlobalExceptionHandler {
 
     private ValidationErrors processConstraintViolations(Set<ConstraintViolation<?>> constraintViolations) {
         return new ValidationErrors(constraintViolations.stream()
-                .collect(Collectors.toMap(contraintViolationToKey(), ConstraintViolation::getMessage)));
+                .collect(Collectors.toMap(constraintViolationToKey(), ConstraintViolation::getMessage)));
     }
 
     private Function<FieldError, String> fieldErrorToKey() {
         return f -> f.getObjectName() + "." + f.getField();
     }
 
-    private Function<ConstraintViolation, String> contraintViolationToKey() {
+    private Function<ConstraintViolation, String> constraintViolationToKey() {
         return f -> f.getPropertyPath().toString();
     }
 }

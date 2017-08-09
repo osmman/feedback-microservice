@@ -18,7 +18,7 @@ public interface FeedbackRepository extends Repository<Feedback, UUID> {
      * Saves a given entity. Use the returned instance for further operations as the save operation might have changed the
      * entity instance completely.
      *
-     * @param entity
+     * @param entity Feedback entity
      * @return the saved entity
      */
     Feedback save(Feedback entity);
@@ -26,7 +26,7 @@ public interface FeedbackRepository extends Repository<Feedback, UUID> {
     /**
      * Saves all given entities.
      *
-     * @param entities
+     * @param entities  Iterable Feedback entries
      * @return the saved entities
      * @throws IllegalArgumentException in case the given entity is {@literal null}.
      */
