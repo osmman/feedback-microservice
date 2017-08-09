@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import org.springframework.data.repository.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 /**
@@ -12,7 +13,7 @@ import java.util.stream.Stream;
  * @see Feedback
  */
 
-public interface FeedbackRepository extends Repository<Feedback, Long> {
+public interface FeedbackRepository extends Repository<Feedback, UUID> {
     /**
      * Saves a given entity. Use the returned instance for further operations as the save operation might have changed the
      * entity instance completely.
@@ -57,7 +58,7 @@ public interface FeedbackRepository extends Repository<Feedback, Long> {
      * @return the entity with the given id
      * @throws IllegalArgumentException if {@code id} is {@literal null}
      */
-    Optional<Feedback> findOne(Long id);
+    Optional<Feedback> findOne(UUID id);
 
     /**
      * Deletes all entities managed by the repository.
