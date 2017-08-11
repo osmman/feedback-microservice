@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.osmman</groupId>
@@ -9,7 +9,34 @@
     <packaging>jar</packaging>
 
     <name>feedback</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Feedback microservice</description>
+
+    <url>https://github.com/osmman/feedback-microservice</url>
+    <issueManagement>
+        <url>https://github.com/osmman/feedback-microservice/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
+    <ciManagement>
+        <system>Travis CI</system>
+        <url>https://travis-ci.org/osmman/feedback-microservice</url>
+    </ciManagement>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/jboss-soa-qa/phaser</url>
+        <connection>scm:git:git://github.com/osmman/feedback-microservice.git</connection>
+        <developerConnection>scm:git:git@github.com:osmman/feedback-microservice.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -30,6 +57,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -133,6 +161,4 @@
             </build>
         </profile>
     </profiles>
-
-
 </project>

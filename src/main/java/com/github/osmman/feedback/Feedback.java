@@ -1,18 +1,20 @@
 package com.github.osmman.feedback;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.annotation.Id;
+
+import javax.validation.constraints.Size;
+
+import java.util.Date;
+import java.util.UUID;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.annotation.Id;
-
-import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.UUID;
 
 @Getter
 @NoArgsConstructor

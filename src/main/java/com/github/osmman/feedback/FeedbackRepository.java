@@ -1,7 +1,8 @@
 package com.github.osmman.feedback;
 
-import com.google.common.base.Preconditions;
 import org.springframework.data.repository.Repository;
+
+import com.google.common.base.Preconditions;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -26,7 +27,7 @@ public interface FeedbackRepository extends Repository<Feedback, UUID> {
     /**
      * Saves all given entities.
      *
-     * @param entities  Iterable Feedback entries
+     * @param entities Iterable Feedback entries
      * @return the saved entities
      * @throws IllegalArgumentException in case the given entity is {@literal null}.
      */
@@ -64,5 +65,4 @@ public interface FeedbackRepository extends Repository<Feedback, UUID> {
      * Deletes all entities managed by the repository.
      */
     void deleteAll();
-
 }

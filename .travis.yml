@@ -6,4 +6,4 @@ services:
   - docker
 
 script:
- - ./mvnw clean install -Pdocker -B
+  - ./mvnw clean install -Pdocker -B
