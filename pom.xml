@@ -3,9 +3,15 @@
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>io.openshift.booster</groupId>
+        <artifactId>spring-boot-booster-parent</artifactId>
+        <version>1.5.12-3-rhoar</version>
+    </parent>
+
     <groupId>com.github.osmman</groupId>
     <artifactId>feedback</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>feedback</name>
@@ -37,13 +43,6 @@
         <tag>HEAD</tag>
     </scm>
 
-
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.6.RELEASE</version>
-    </parent>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -71,13 +70,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jolokia</groupId>
-            <artifactId>jolokia-core</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-keyvalue</artifactId>
+            <version>1.2.12.RELEASE</version>
         </dependency>
 
         <dependency>
@@ -94,36 +89,20 @@
     </dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>io.fabric8</groupId>
-                    <artifactId>fabric8-maven-plugin</artifactId>
-                    <version>${fabric8.version}</version>
-                    <executions>
-                        <execution>
-                            <id>fmp</id>
-                            <goals>
-                                <goal>resource</goal>
-                                <goal>helm</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>fabric8-maven-plugin</artifactId>
-            </plugin>
+          <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+              <profiles>
+                <profile>local</profile>
+              </profiles>
+              <classifier>exec</classifier>
+            </configuration>
+          </plugin>
         </plugins>
     </build>
-
+  
     <profiles>
         <profile>
             <id>swagger-ui</id>
@@ -135,7 +114,7 @@
                 </dependency>
             </dependencies>
         </profile>
-        <profile>
+         <profile>
             <id>docker</id>
             <build>
                 <plugins>
